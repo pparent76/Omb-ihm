@@ -99,11 +99,36 @@ function cgi_getvars()
 
 # register all GET and POST variables
 cgi_getvars BOTH ALL
+omb-client -c /home/www-data/cookie -d $domain > /tmp/res1
+head -n 1 /tmp/res1 > /tmp/res
+res=$(cat /tmp/res);
+if [ "$res" != "OK" ]; then 
+cat <<EOF
+<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
+</head><body></body>
+</html>
+EOF
+exit
+fi
 
+echo "$domain.omb.one" > /home/www-data/domain
+
+tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/other_hidden_service/hostname)
+omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1
+head -n 1 /tmp/res1 > /tmp/res
+res=$(cat /tmp/res);
+if [ "$res" != "OK" ]; then 
+cat <<EOF
+<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
+</head><body></body>
+</html>
+EOF
+exit  
+fi
 
 
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/07-sumup.cgi">
+<meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
 </head><body></body>
 </html>
 EOF
