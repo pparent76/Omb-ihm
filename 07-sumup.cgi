@@ -22,7 +22,7 @@ printf '
    Your domain: </font></br><font color="green" size="4" style="	text-shadow: 1px 1px #000000;">'
 cat /home/www-data/domain;
 printf '</br> </font><font color="white" size="4" style="	text-shadow: 2px 2px #000000;">  Your tor hidden service address: </font></br><font color="green" size="4" style="	text-shadow: 1px 1px #000000;">'
-sudo /bin/cat /var/lib/tor/other_hidden_service/hostname;
+sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname;
 printf '</font>
    <div style="height:15px"></div>   
 <font color="orange" size="3" style="	text-shadow: 2px 2px #000000;">Please save these informations carefully. It may be useful later.</font></br>

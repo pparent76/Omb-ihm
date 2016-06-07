@@ -102,7 +102,7 @@ cgi_getvars BOTH ALL
 
 
 #TODO check for pass integrity
-if [ -e "/etc/omb/admin-pass-configured" ]; then
+if [ -e "/etc/omb/mail-allready-configured" ]; then
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=../first/01c-password-allreadyset.html">
 </head><body></body>
@@ -114,20 +114,30 @@ fi
 #Password did not match
 if [ "$pass1" != "$pass2" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/01b-password-nomatch.html">
+<meta http-equiv="refresh" content="0; URL=../first/08b-setup-email-acount-nomatch.cgi">
 </head><body></body>
 </html>
 EOF
 exit 0;
 fi
 
+domain=$(cat /home/www-data/domain)
+unset HISTFILE
 
+rm /tmp/resmp
+sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh $user@$domain $pass1 \"$fn\"" > /tmp/resmp 2>&1 &
+history -c
+echo "$user@$domain">/home/www-data/mail
+echo "$fn">/home/www-data/fn
 
-echo "root:$pass1" | sudo /usr/sbin/chpasswd
-(sudo /usr/lib/cgi-bin/setupTor.sh)& >&- 2>&-
+fin="";
+while [ "$fin" != "finend" ]; do
+fin=$(tail -1 /tmp/resmp)
+sleep 1;
+done
 
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/03-Identification-cookie.html">
+<meta http-equiv="refresh" content="0; URL=10-final.cgi">
 </head><body></body>
 </html>
 EOF

@@ -113,7 +113,7 @@ fi
 
 echo "$domain.omb.one" > /home/www-data/domain
 
-tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/other_hidden_service/hostname)
+tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
 omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1
 head -n 1 /tmp/res1 > /tmp/res
 res=$(cat /tmp/res);
@@ -126,6 +126,7 @@ EOF
 exit  
 fi
 
+postfix_config_hostname.sh $domain.omb.one
 
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
