@@ -112,9 +112,9 @@ exit 0;
 fi
 
 #Password did not match
-if [ "$pass1" != "$pass2" ]; then
+if [ "$pass1" != "$pass2" ] || [ "$user" = "" ] || [ "$fn" = "" ] || [ "$pass1" = "" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/08b-setup-email-acount-nomatch.cgi">
+<meta http-equiv="refresh" content="0; URL=08b-setup-email-acount-nomatch.cgi">
 </head><body></body>
 </html>
 EOF
@@ -125,6 +125,13 @@ domain=$(cat /home/www-data/domain)
 unset HISTFILE
 
 rm /tmp/resmp
+
+echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases
+sudo /usr/bin/newaliases
+encpass=$(perl -e 'print crypt($ARGV[0], "password")' $pass)
+printf "Subject:Welcome\nWelcome to your Own-Mailbox, $fn!" | /usr/sbin/sendmail $user@$domain
+
+
 sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh $user@$domain $pass1 \"$fn\"" > /tmp/resmp 2>&1 &
 history -c
 echo "$user@$domain">/home/www-data/mail
