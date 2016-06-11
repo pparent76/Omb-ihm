@@ -126,7 +126,7 @@ EOF
 exit  
 fi
 
-postfix_config_hostname.sh $domain.omb.one
+sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one
 
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
