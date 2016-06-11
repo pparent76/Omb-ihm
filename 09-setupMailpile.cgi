@@ -126,6 +126,7 @@ unset HISTFILE
 
 rm /tmp/resmp
 
+sudo /bin/su mailpile -c "./setupGnupg.sh $user@$domain $pass1 \"$fn\" &" 
 echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases
 sudo /usr/bin/newaliases
 encpass=$(perl -e 'print crypt($ARGV[0], "password")' $pass)
@@ -142,6 +143,10 @@ while [ "$fin" != "finend" ]; do
 fin=$(tail -1 /tmp/resmp)
 sleep 1;
 done
+
+sleep 5;
+#For security reasons
+sudo /bin/cp sudoers-final /etc/sudoers
 
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=10-final.cgi">
