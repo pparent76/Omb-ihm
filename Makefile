@@ -1,7 +1,5 @@
-all:
+all: 	/var/www/first/
 	cp sudoers /etc/sudoers
-	rm -r /var/www/first/
-	mkdir /var/www/first/
 	cp -r *.html /var/www/first/
 	cp -r files /var/www/first/	
 	cp *.cgi /usr/lib/cgi-bin/
@@ -26,3 +24,6 @@ all:
 	chown www-data  /usr/lib/cgi-bin/08-setup-email-acount.cgi
 	chown www-data  /usr/lib/cgi-bin/09-setupMailpile.cgi
 	chown www-data  /usr/lib/cgi-bin/10-final.cgi
+	
+/var/www/first/:
+	mkdir /var/www/first/
