@@ -3,6 +3,7 @@ all: 	/var/www/first/
 	cp -r *.html /var/www/first/
 	cp -r files /var/www/first/	
 	cp *.cgi /usr/lib/cgi-bin/
+	cp index-root-init.html /var/www/index.html
 	chmod 755 /usr/lib/cgi-bin/*.cgi
 	cp setupTor.sh /usr/lib/cgi-bin/
 	cp setupGnupg.sh /usr/lib/cgi-bin/
