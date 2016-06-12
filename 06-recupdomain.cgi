@@ -118,6 +118,7 @@ omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1
 head -n 1 /tmp/res1 > /tmp/res
 res=$(cat /tmp/res);
 if [ "$res" != "OK" ]; then 
+sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
 </head><body></body>
@@ -126,7 +127,7 @@ EOF
 exit  
 fi
 
-sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one
+
 
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
