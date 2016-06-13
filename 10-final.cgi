@@ -26,6 +26,7 @@ else
  echo ""> /usr/lib/cgi-bin/09-setupMailpile.cgi
  echo ""> /usr/lib/cgi-bin/setupGnupg.sh
  echo ""> /usr/lib/cgi-bin/setupTor.sh 
+ cp /var/www/first/index-root-final.html /var/www/index.html
 fi
 printf '
   <script>
