@@ -126,9 +126,11 @@ unset HISTFILE
 
 rm /tmp/resmp
 
+
 sudo /bin/su mailpile -c "./setupGnupg.sh $user@$domain $pass1 \"$fn\" &" 
 echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases
 sudo /usr/bin/newaliases
+sudo /usr/sbin/service postfix restart
 encpass=$(perl -e 'print crypt($ARGV[0], "password")' $pass)
 printf "Subject:Welcome\nWelcome to your Own-Mailbox, $fn!" | /usr/sbin/sendmail $user@$domain
 

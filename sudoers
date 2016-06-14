@@ -30,6 +30,7 @@ www-data ALL=(ALL) NOPASSWD: /usr/bin/tee
 www-data ALL=(ALL) NOPASSWD: /usr/bin/newaliases
 www-data ALL=(ALL) NOPASSWD: /bin/cp
 www-data ALL=(ALL) NOPASSWD: /usr/bin/postfix_config_hostname.sh
+www-data ALL=(ALL) NOPASSWD: /usr/sbin/service postfix
 
 # See sudoers(5) for more information on "#include" directives:
 
