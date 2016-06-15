@@ -136,6 +136,12 @@ sudo /usr/sbin/service postfix restart
 encpass=$(perl -e 'print crypt($ARGV[0], "password")' $pass)
 printf "Subject:Welcome\nWelcome to your Own-Mailbox, $fn!" | /usr/sbin/sendmail $user@$domain
 
+while [ ! -s /var/mail/mailpile ]; do
+sleep 1;
+sudo /bin/su root -c "newaliases"
+sudo /bin/su root -c "postqueue -f"
+sleep 1;
+done
 
 sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh $user@$domain $pass1 \"$fn\"" > /tmp/resmp 2>&1 &
 history -c
