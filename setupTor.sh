@@ -10,6 +10,11 @@ HiddenServicePort 25 127.0.0.1:25\n"
 printf "$text" >> /etc/tor/torrc;
 
 killall tor;
+
+#Read 2 Bytes of entropy just to make sure /dev/urandom is correctly initialized
+#See https://lists.torproject.org/pipermail/tor-talk/2014-January/031773.html
+dd if=/dev/random bs=8 count=2
+
 sleep 2;
 su tor -c tor&
 
