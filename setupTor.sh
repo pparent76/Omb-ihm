@@ -11,9 +11,9 @@ printf "$text" >> /etc/tor/torrc;
 
 killall tor;
 
-#Read 2 Bytes of entropy just to make sure /dev/urandom is correctly initialized
+#Read 32 Bytes of entropy just to make sure /dev/urandom is correctly reseeded
 #See https://lists.torproject.org/pipermail/tor-talk/2014-January/031773.html
-dd if=/dev/random bs=8 count=2
+dd if=/dev/random bs=8 count=4
 
 sleep 2;
 su tor -c tor&

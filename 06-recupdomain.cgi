@@ -95,9 +95,21 @@ function cgi_getvars()
     return
 }
 
+#Dans un premier temps on informe du 
+tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
+omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1
+head -n 1 /tmp/res1 > /tmp/res
+res=$(cat /tmp/res);
+if [ "$res" != "OK" ]; then 
+cat <<EOF
+<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
+</head><body></body>
+</html>
+EOF
+exit  
+fi
 
 
-# register all GET and POST variables
 cgi_getvars BOTH ALL
 omb-client -c /home/www-data/cookie -d $domain > /tmp/res1
 head -n 1 /tmp/res1 > /tmp/res
@@ -113,18 +125,7 @@ fi
 
 echo "$domain.omb.one" > /home/www-data/domain
 
-tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
-omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1
-head -n 1 /tmp/res1 > /tmp/res
-res=$(cat /tmp/res);
-if [ "$res" != "OK" ]; then 
-cat <<EOF
-<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
-</head><body></body>
-</html>
-EOF
-exit  
-fi
+
 
 
 sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one
