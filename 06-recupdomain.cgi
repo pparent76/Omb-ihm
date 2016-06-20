@@ -97,7 +97,17 @@ function cgi_getvars()
 
 #Dans un premier temps on informe du 
 tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
-omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1
+if [ -z "$tor_hiddendomain" ]; then
+  echo "The tor hidden service is not correctly setup">/tmp/res1
+  cat <<EOF
+<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
+</head><body></body>
+</html>
+EOF
+exit 
+fi
+
+omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1 2>&1
 head -n 1 /tmp/res1 > /tmp/res
 res=$(cat /tmp/res);
 if [ "$res" != "OK" ]; then 
@@ -111,7 +121,7 @@ fi
 
 
 cgi_getvars BOTH ALL
-omb-client -c /home/www-data/cookie -d $domain > /tmp/res1
+omb-client -c /home/www-data/cookie -d $domain > /tmp/res1 2>&1
 head -n 1 /tmp/res1 > /tmp/res
 res=$(cat /tmp/res);
 if [ "$res" != "OK" ]; then 
