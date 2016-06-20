@@ -98,7 +98,7 @@ function cgi_getvars()
 #Dans un premier temps on informe du 
 tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
 if [ -z "$tor_hiddendomain" ]; then
-  echo "The tor hidden service is not correctly setup">/tmp/res1
+  echo "The tor hidden service is not correctly setup">/tmp/res
   cat <<EOF
 <meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
 </head><body></body>
