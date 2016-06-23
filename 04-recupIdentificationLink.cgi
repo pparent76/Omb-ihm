@@ -115,19 +115,36 @@ echo $link>/tmp/link
 #we download the tarhet anonymously
 torsocks wget $link -O /home/www-data/cookie > /tmp/download
 
-if [ "$?" -eq "0" ]; then
-cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/05-choose-domain.html">
-</head><body></body>
-</html>
-EOF
-sudo /usr/bin/touch /etc/omb/Identification-configured
-else
+if [ "$?" -ne "0" ]; then
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=../first/03b-Identification-cookie-wrong.html">
 </head><body></body>
 </html>
 EOF
+exit 0;
 fi
+
+
+sudo /usr/bin/touch /etc/omb/Identification-configured
+
+######################################################
+#	Configure Identification for email relay
+######################################################
+ID=$(cat /home/www-data/cookie| awk '{print $1;}' | sed  's/ID=//g'  | sed  's/;//g');
+passphrase=$(cat /home/www-data/cookie| awk '{print $2;}' | sed  's/passphrase=//g'  | sed  's/;//g');
+RELAY=$(cat /etc/postfix/relay_hostname)
+
+echo "$RELAY user-$ID@proxy.omb.one:$passphrase">/etc/postfix/relay_password;
+postmap /etc/postfix/relay_password;
+service postfix restart;
+
+cat <<EOF
+<meta http-equiv="refresh" content="0; URL=../first/05-choose-domain.html">
+</head><body></body>
+</html>
+EOF
+
+
+
 
 exit 0;
