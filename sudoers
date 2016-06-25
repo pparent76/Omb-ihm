@@ -32,6 +32,7 @@ www-data ALL=(ALL) NOPASSWD: /bin/cp
 www-data ALL=(ALL) NOPASSWD: /usr/bin/postfix_config_hostname.sh
 www-data ALL=(ALL) NOPASSWD: /usr/sbin/service postfix
 www-data ALL=(ALL) NOPASSWD: /usr/sbin/service apache2
+www-data ALL=(ALL) NOPASSWD: /usr/sbin/service
 www-data ALL=(ALL) NOPASSWD: /usr/sbin/postmap
 www-data ALL=(ALL) NOPASSWD: /usr/sbin/a2ensite
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/make-tls-key.sh
