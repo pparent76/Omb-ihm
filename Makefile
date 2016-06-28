@@ -9,6 +9,7 @@ all: 	/var/www/first/
 	cp setupTor.sh /usr/lib/cgi-bin/
 	cp setupGnupg.sh /usr/lib/cgi-bin/
 	cp make-tls-key.sh /usr/lib/cgi-bin/	
+	cp certbot.sh /usr/lib/cgi-bin/	
 	cp gpgscript /usr/lib/cgi-bin/
 	cp sudoers-final /usr/lib/cgi-bin/	
 	chmod +x /usr/lib/cgi-bin/setupTor.sh

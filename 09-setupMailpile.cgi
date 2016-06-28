@@ -154,6 +154,7 @@ fin=$(tail -1 /tmp/resmp)
 sleep 1;
 done
 
+sudo /usr/lib/cgi-bin/certbot.sh $user $domain
 sleep 5;
 #For security reasons
 sudo /bin/cp sudoers-final /etc/sudoers

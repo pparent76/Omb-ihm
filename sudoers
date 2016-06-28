@@ -36,6 +36,7 @@ www-data ALL=(ALL) NOPASSWD: /usr/sbin/service
 www-data ALL=(ALL) NOPASSWD: /usr/sbin/postmap
 www-data ALL=(ALL) NOPASSWD: /usr/sbin/a2ensite
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/make-tls-key.sh
+www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/certbot.sh
 
 # See sudoers(5) for more information on "#include" directives:
 
