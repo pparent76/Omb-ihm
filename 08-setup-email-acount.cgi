@@ -32,7 +32,7 @@ function toggle()
 <p>
 <font color="white" size="6" style="	text-shadow: 2px 2px #000000;">Configuring your webmail.</font></br>
 <font color="white" size="4" style="	text-shadow: 2px 2px #000000;">Please wait...</font></br>
-<font color="white" size="3" style="	text-shadow: 2px 2px #000000;">This may take up to 60s</font></br>
+<font color="white" size="3" style="	text-shadow: 2px 2px #000000;">This may take up to 3 minutes.</font></br>
 </p>
 <div style="height:250px"></div>
 <p>
