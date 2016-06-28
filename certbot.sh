@@ -1,6 +1,6 @@
 #!/bin/bash
 
-certbot certonly -n --agree-tos --email $1@$2 --webroot  -w /var/www/ -d $2 > /var/log/certbot-log 2>&1
+torsocks certbot certonly -n --agree-tos --email $1@$2 --webroot  -w /var/www/ -d $2 > /var/log/certbot-log 2>&1
 if [ -e /etc/letsencrypt/live/$2/fullchain.pem ] && [ -e /etc/letsencrypt/live/$2/privkey.pem ]; then
 rm /etc/ssl/server.crt
 rm /etc/ssl/server.key
