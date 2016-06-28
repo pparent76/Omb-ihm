@@ -1,6 +1,6 @@
 #!/bin/bash
 
-touch 
+touch /var/log/certbot-log 
 
 for i in {0..15..1}
 do
