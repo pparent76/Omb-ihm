@@ -9,17 +9,17 @@ printf '<!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="../first/files/styles.css">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">';
 
-torsocks wget http://proxy.omb.one/OK -O /tmp/ok_www > /dev/null 2>&1
-res_wget=$?;
-hostname=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname);
-res_cat=$?;
-
 attempt=$(cat /tmp/attempt_www)
 if [ "$attempt" = "" ]; then
   attempt="1";
 else
   attempt=$((attempt+1))
 fi
+
+torsocks wget --timeout $((attempt+1+attempt)) http://proxy.omb.one/OK -O /tmp/ok_www > /dev/null 2>&1
+res_wget=$?;
+hostname=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname);
+res_cat=$?;
 
 echo "$attempt"> /tmp/attempt_www
 

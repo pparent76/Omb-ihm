@@ -15,6 +15,8 @@ killall tor;
 #See https://lists.torproject.org/pipermail/tor-talk/2014-January/031773.html
 dd if=/dev/random bs=8 count=4
 
+touch /var/log/tor.log
+chown tor /var/log/tor.log
 sleep 2;
 su tor -c "tor& >/var/log/tor.log"
 
