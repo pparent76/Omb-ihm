@@ -27,7 +27,7 @@ else
     printf '<meta http-equiv="refresh" content="0; URL=../first/03-Identification-cookie.html">'
   else
     printf '<meta http-equiv="refresh" content="'
-    printf "$((attempt+5+attempt))"
+    printf "$((attempt+1+attempt))"
     printf '">'
   fi
 fi

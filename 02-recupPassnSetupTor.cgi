@@ -131,7 +131,7 @@ echo "root:$pass1" | sudo /usr/sbin/chpasswd
 ###############################################
 (sudo /usr/lib/cgi-bin/make-tls-key.sh) >&- 2>&-
 sudo /usr/sbin/a2ensite https.conf  >&- 2>&-
-sudo /usr/sbin/service apache2 reload  >/dev/null/  >&- 2>&-
+sudo /usr/sbin/service apache2 reload >&- 2>&-
 
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=02-bis-check-tor.cgi">
