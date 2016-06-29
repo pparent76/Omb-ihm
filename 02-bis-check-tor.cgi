@@ -13,7 +13,7 @@ attempt=$(cat /tmp/attempt_www)
 if [ "$attempt" = "" ]; then
   attempt="1";
   echo "$attempt"> /tmp/attempt_www
-   printf '<meta http-equiv="refresh" content="; URL=">'  
+   printf '<meta http-equiv="refresh" content="0">'  
 else
   attempt=$((attempt+1))
   torsocks wget --timeout $((attempt)) http://proxy.omb.one/OK -O /tmp/ok_www > /dev/null 2>&1
@@ -28,7 +28,7 @@ else
   else
     printf '<meta http-equiv="refresh" content="'
     printf "$((attempt+5+attempt))"
-    printf '; URL=">'
+    printf '">'
   fi
 fi
 
