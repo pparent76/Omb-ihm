@@ -12,23 +12,24 @@ printf '<!DOCTYPE html>
 attempt=$(cat /tmp/attempt_www)
 if [ "$attempt" = "" ]; then
   attempt="1";
+  echo "$attempt"> /tmp/attempt_www
+   printf '<meta http-equiv="refresh" content="; URL=">'  
 else
   attempt=$((attempt+1))
-fi
+  torsocks wget --timeout $((attempt)) http://proxy.omb.one/OK -O /tmp/ok_www > /dev/null 2>&1
+  res_wget=$?;
+  hostname=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname);
+  res_cat=$?;
 
-torsocks wget --timeout $((attempt+1+attempt)) http://proxy.omb.one/OK -O /tmp/ok_www > /dev/null 2>&1
-res_wget=$?;
-hostname=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname);
-res_cat=$?;
+  echo "$attempt"> /tmp/attempt_www
 
-echo "$attempt"> /tmp/attempt_www
-
-if [ "$res_wget" -eq "0" ] && [ "$res_cat" -eq "0" ] && [ "$hostname" != "" ]; then
- printf '<meta http-equiv="refresh" content="0; URL=../first/03-Identification-cookie.html">'
-else
- printf '<meta http-equiv="refresh" content="'
- printf "$((attempt+5+attempt))"
- printf '; URL=">'
+  if [ "$res_wget" -eq "0" ] && [ "$res_cat" -eq "0" ] && [ "$hostname" != "" ]; then
+    printf '<meta http-equiv="refresh" content="0; URL=../first/03-Identification-cookie.html">'
+  else
+    printf '<meta http-equiv="refresh" content="'
+    printf "$((attempt+5+attempt))"
+    printf '; URL=">'
+  fi
 fi
 
 printf "        

@@ -18,6 +18,6 @@ dd if=/dev/random bs=8 count=4
 touch /var/log/tor.log
 chown tor /var/log/tor.log
 sleep 2;
-su tor -c "tor& >/var/log/tor.log"
+su tor -c "tor&"
 
 touch /etc/omb/admin-pass-configured
