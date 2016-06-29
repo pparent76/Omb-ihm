@@ -130,7 +130,7 @@ echo "root:$pass1" | sudo /usr/sbin/chpasswd
 #  Generate ssl key and add https to apache
 ###############################################
 (sudo /usr/lib/cgi-bin/make-tls-key.sh) >&- 2>&-
-sudo /usr/sbin/a2ensite https.conf  >/dev/null/-  >&- 2>&-
+sudo /usr/sbin/a2ensite https.conf  >&- 2>&-
 sudo /usr/sbin/service apache2 reload  >/dev/null/  >&- 2>&-
 
 cat <<EOF
