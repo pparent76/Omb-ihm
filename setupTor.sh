@@ -16,6 +16,6 @@ killall tor;
 dd if=/dev/random bs=8 count=4
 
 sleep 2;
-su tor -c tor& >/var/log/tor.log
+su tor -c "tor& >/var/log/tor.log"
 
 touch /etc/omb/admin-pass-configured
