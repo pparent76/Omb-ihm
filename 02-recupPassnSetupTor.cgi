@@ -134,7 +134,7 @@ sudo /usr/sbin/a2ensite https.conf
 sudo /usr/sbin/service apache2 reload
 
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/03-Identification-cookie.html">
+<meta http-equiv="refresh" content="0; URL=02-bis-check-tor.cgi">
 </head><body></body>
 </html>
 EOF
