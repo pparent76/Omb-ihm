@@ -134,7 +134,7 @@ ID=$(cat /home/www-data/cookie| awk '{print $1;}' | sed  's/ID=//g'  | sed  's/;
 passphrase=$(cat /home/www-data/cookie| awk '{print $2;}' | sed  's/passphrase=//g'  | sed  's/;//g');
 RELAY=$(cat /etc/postfix/relay_hostname)
 
-echo "$RELAY user-$ID@proxy.omb.one:$passphrase" | sudo /usr/bin/tee /etc/postfix/relay_password;
+echo "$RELAY user-$ID@proxy.omb.one:$passphrase" | sudo /usr/bin/tee /etc/postfix/relay_password >/dev/null;
 sudo /usr/sbin/postmap /etc/postfix/relay_password >/dev/null 2>&1
 sudo /usr/sbin/service postfix restart >/dev/null 2>&1
 
