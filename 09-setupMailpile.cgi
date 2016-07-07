@@ -128,7 +128,7 @@ rm /tmp/resmp
 
 
 sudo /bin/su mailpile -c "./setupGnupg.sh $user@$domain $pass1 \"$fn\" &" 
-echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases
+echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases >/dev/null
 sleep 1;
 sudo /bin/su root -c "newaliases"
 sleep 1;
