@@ -112,8 +112,8 @@ fi
 #todo check link is a link 
 
 echo $link>/tmp/link
-#we download the tarhet anonymously
-torsocks wget $link -O /home/www-data/cookie > /tmp/download
+#we download the target anonymously
+torsocks wget $link -O /home/www-data/cookie >/tmp/download 2>&1
 
 if [ "$?" -ne "0" ]; then
 cat <<EOF

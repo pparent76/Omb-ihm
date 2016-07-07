@@ -138,7 +138,7 @@ echo "$domain.omb.one" > /home/www-data/domain
 
 
 
-sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one
+sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one >/dev/null 2>&1
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
 </head><body></body>
