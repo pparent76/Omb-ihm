@@ -31,3 +31,4 @@ if [ -e /etc/letsencrypt/live/$2/fullchain.pem ] && [ -e /etc/letsencrypt/live/$
 fi
 
 
+exit 0;
