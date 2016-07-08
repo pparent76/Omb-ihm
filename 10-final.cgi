@@ -18,7 +18,9 @@ else
  #For security reasons
 for FILE in /usr/lib/cgi-bin/*
 do
- echo '#!/bin/true'>"${FILE}"
+  if [ "${FILE}" != "/usr/lib/cgi-bin/10-final.cgi" ]; then
+      echo '#!/bin/true'>"${FILE}"
+  fi
 done
  rm /var/www/first/0*.html
  cp /var/www/first/index-root-final.html /var/www/index.html
