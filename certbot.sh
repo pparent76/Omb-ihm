@@ -5,11 +5,17 @@ touch /var/log/certbot-log
 for i in {0..15..1}
 do
   torsocks certbot certonly -n --agree-tos --email $1@$2 --webroot  -w /var/www/ -d $2 >> /var/log/certbot-log 2>&1
-  cat /var/log/certbot-log | grep Congratulations!
+  cat /var/log/certbot-log | grep Congratulations! >/dev/null
   if [ "$?" -eq "0" ]; then
     #We got the certificate. 
     break 
   fi
+  
+  cat /var/log/certbot-log | grep "Too many certificates already issued" >/dev/null
+  if [ "$?" -eq "0" ]; then
+   exit 55;
+  fi
+  
   #Otherwise we try again in 15 seconds: various conf may not yet be up to date amoungst all servers
   sleep 15;
 done

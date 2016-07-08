@@ -155,15 +155,26 @@ sleep 1;
 done
 
 sudo /usr/lib/cgi-bin/certbot.sh $user $domain
+res-certbot=$?;
 sleep 5;
 #For security reasons
 sudo /bin/cp sudoers-final /etc/sudoers
 
+#If we have an error because too many certificates were issued.
+if [ "res-certbot" -eq "55" ]; then
+cat <<EOF
+<meta http-equiv="refresh" content="0; URL=../first/10-certificate-error.html">
+</head><body></body>
+</html>
+EOF
+else
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=10-final.cgi">
 </head><body></body>
 </html>
 EOF
+fi;
+
 exec >&-
 exec 2>&-
 exit 0;
