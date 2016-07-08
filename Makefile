@@ -20,7 +20,7 @@ all: 	/var/www/first/
 	chmod 755 /var/www/first/index.html
 	chmod 755 /var/www/first/index-final.html	
 	chown www-data  /usr/lib/cgi-bin/*
-
+	chown www-data  /var/www/first/*
 	
 /var/www/first/:
 	mkdir /var/www/first/
