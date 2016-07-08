@@ -16,16 +16,11 @@ else
  printf '<meta http-equiv="refresh" content="5; URL=../first/11-Final-real.html">'
  cp /var/www/first/index-final.html /var/www/first/index.html
  #For security reasons
- echo ""> /usr/lib/cgi-bin/02-recupPassnSetupTor.cgi
- echo ""> /usr/lib/cgi-bin/04-recupIdentificationLink.cgi
- echo ""> /usr/lib/cgi-bin/05b-choose-domain-error.cgi
- echo ""> /usr/lib/cgi-bin/06-recupdomain.cgi
- echo ""> /usr/lib/cgi-bin/07-sumup.cgi
- echo ""> /usr/lib/cgi-bin/08b-setup-email-acount-nomatch.cgi
- echo ""> /usr/lib/cgi-bin/08-setup-email-acount.cgi
- echo ""> /usr/lib/cgi-bin/09-setupMailpile.cgi
- echo ""> /usr/lib/cgi-bin/setupGnupg.sh
- echo ""> /usr/lib/cgi-bin/setupTor.sh 
+for FILE in /usr/lib/cgi-bin/*
+do
+ echo '#!/bin/true'>"${FILE}"
+done
+ rm /var/www/first/0*.html
  cp /var/www/first/index-root-final.html /var/www/index.html
 fi
 printf '
