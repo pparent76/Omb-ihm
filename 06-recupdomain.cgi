@@ -95,7 +95,18 @@ function cgi_getvars()
     return
 }
 
-#Dans un premier temps on informe du 
+#si le domaine est déja configuré on va direct au résumé
+if [ -e "/etc/omb/Domain-configured" ]; then
+cat <<EOF
+<meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
+</head><body></body>
+</html>
+EOF
+exit 0;
+fi
+
+
+#Get our tor hidden service hostname
 tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
 if [ -z "$tor_hiddendomain" ]; then
   echo "The tor hidden service is not correctly setup">/tmp/res
@@ -107,17 +118,22 @@ EOF
 exit 
 fi
 
-omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1 2>&1
-head -n 1 /tmp/res1 > /tmp/res
-res=$(cat /tmp/res);
-if [ "$res" != "OK" ]; then 
-cat <<EOF
+#If the tor hidden service was not yet communicated to the proxy server
+#then we inform the proxy server about it.
+if [ ! -e "/etc/omb/Tor-hidden-informed-configured" ]; then
+  omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1 2>&1
+  head -n 1 /tmp/res1 > /tmp/res
+  res=$(cat /tmp/res);
+  if [ "$res" != "OK" ]; then 
+    cat <<EOF
 <meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
 </head><body></body>
 </html>
 EOF
-exit  
+  exit  
+  fi
 fi
+sudo /usr/bin/touch /etc/omb/Tor-hidden-informed-configured
 
 
 cgi_getvars BOTH ALL
@@ -132,13 +148,12 @@ cat <<EOF
 EOF
 exit
 fi
-
 echo "$domain.omb.one" > /home/www-data/domain
-
-
-
-
 sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one >/dev/null 2>&1
+sudo /usr/bin/touch /etc/omb/Domain-configured
+
+
+
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
 </head><body></body>

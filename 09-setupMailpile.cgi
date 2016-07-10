@@ -100,6 +100,16 @@ function cgi_getvars()
 # register all GET and POST variables
 cgi_getvars BOTH ALL
 
+#si le domaine est déja configuré on va direct au résumé
+if [ -e "/etc/omb/Mailpile-configured" ]; then
+cat <<EOF
+<meta http-equiv="refresh" content="0; URL=10-final.cgi">
+</head><body></body>
+</html>
+EOF
+exit 0;
+fi
+
 
 #TODO check for pass integrity
 if [ -e "/etc/omb/mail-allready-configured" ]; then
@@ -160,6 +170,8 @@ sleep 5;
 #For security reasons
 sudo /bin/cp sudoers-final /etc/sudoers
 
+sudo /usr/bin/touch /etc/omb/Mailpile-configured
+
 #If we have an error because too many certificates were issued.
 if [ "$rescertbot" -eq "55" ]; then
 cat <<EOF
@@ -174,6 +186,7 @@ cat <<EOF
 </html>
 EOF
 fi;
+
 
 exec >&-
 exec 2>&-
