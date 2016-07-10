@@ -100,7 +100,7 @@ function cgi_getvars()
 # register all GET and POST variables
 cgi_getvars BOTH ALL
 
-#si le domaine est déja configuré on va direct au résumé
+#si Mail est déja configuré on va direct au résumé
 if [ -e "/etc/omb/Mailpile-configured" ]; then
 cat <<EOF
 <meta http-equiv="refresh" content="0; URL=10-final.cgi">
@@ -110,16 +110,6 @@ EOF
 exit 0;
 fi
 
-
-#TODO check for pass integrity
-if [ -e "/etc/omb/mail-allready-configured" ]; then
-cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/01c-password-allreadyset.html">
-</head><body></body>
-</html>
-EOF
-exit 0;
-fi
 
 #Password did not match
 if [ "$pass1" != "$pass2" ] || [ "$user" = "" ] || [ "$fn" = "" ] || [ "$pass1" = "" ]; then
@@ -132,18 +122,38 @@ exit 0;
 fi
 
 domain=$(cat /home/www-data/domain)
+echo "$user@$domain">/home/www-data/mail
+echo "$fn">/home/www-data/fn
 unset HISTFILE
 
-rm /tmp/resmp
 
 
-sudo /bin/su mailpile -c "./setupGnupg.sh $user@$domain $pass1 \"$fn\" &" 
-echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases >/dev/null
+###########################################################################
+#		Start creating a gpg key
+###########################################################################
+
+#Check that the key is not allready generated, or gpg is allready working.
+ps -ae | grep gpg >/dev/null
+gpgstate=$?;
+key=$(sudo /bin/su mailpile -c "/home/mailpile/Mailpile/getKeyFootprint.sh")
+if [ "$gpgstate" -eq "0" ] && [ ${#key} -lt 5 ]; then
+    sudo /bin/su mailpile -c "./setupGnupg.sh $user@$domain $pass1 \"$fn\" &" 
+fi
+
+###########################################################################
+#		Configure username in postfix, send him a welcome email
+#			And make sur he gets it.
+###########################################################################
+
+cat /etc/aliases | grep "$user" >/dev/null
+if [ $? -ne 0 ]; then
+  echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases >/dev/null
+fi
+
 sleep 1;
 sudo /bin/su root -c "newaliases"
 sleep 1;
 sudo /usr/sbin/service postfix restart
-encpass=$(perl -e 'print crypt($ARGV[0], "password")' $pass)
 printf "Subject:Welcome\nWelcome to your Own-Mailbox, $fn!" | /usr/sbin/sendmail $user@$domain
 
 while [ ! -s /var/mail/mailpile ]; do
@@ -153,23 +163,41 @@ sudo /bin/su root -c "postqueue -f"
 sleep 1;
 done
 
-sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh $user@$domain $pass1 \"$fn\"" > /tmp/resmp 2>&1 &
-history -c
-echo "$user@$domain">/home/www-data/mail
-echo "$fn">/home/www-data/fn
-
-fin="";
-while [ "$fin" != "finend" ]; do
+###########################################################################
+#		Configure Mailpile in backgroud, and wait for it
+#		      to be ok.
+###########################################################################
 fin=$(tail -1 /tmp/resmp)
-sleep 1;
-done
 
-sudo /usr/lib/cgi-bin/certbot.sh $user $domain
-rescertbot=$?;
-sleep 5;
+#add verification on setup.sh
+pidof setup.sh >/dev/null
+
+if [ "$?" -ne "0" ]; then
+  if [ "$fin" != "finend" ]; then 
+    rm /tmp/resmp
+    sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh $user@$domain $pass1 \"$fn\"" > /tmp/resmp 2>&1 &
+    history -c
+  fi
+
+  while [ "$fin" != "finend" ]; do
+  fin=$(tail -1 /tmp/resmp)
+  sleep 1;
+  done
+fi
+
+###########################################################################
+#		Get a certificate from Let's encrypt.
+###########################################################################
+if [ ! -e "/etc/omb/certificate-configured" ]; then
+  sudo /usr/lib/cgi-bin/certbot.sh $user $domain
+  rescertbot=$?;
+  sleep 1;
+  sudo /usr/bin/touch /etc/omb/certificate-configured
+fi
+
+
 #For security reasons
 sudo /bin/cp sudoers-final /etc/sudoers
-
 sudo /usr/bin/touch /etc/omb/Mailpile-configured
 
 #If we have an error because too many certificates were issued.

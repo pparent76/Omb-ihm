@@ -65,6 +65,7 @@ function toggle()
 <font color="white" size="6" style="	text-shadow: 2px 2px #000000;">Create email account.</font></br>
 <div style="height:25px"></div>
 <form  action="../cgi-bin/09-setupMailpile.cgi" method="post">
+<font color="red" size="3" style="	text-shadow: 2px 2px #000000;">Passwords did not match!</font></br>
 <table>
 <tr>
 <td><font color="white" size="4" style="	text-shadow: 2px 2px #000000;">Email:</font></td><td><input type="text" size="10" name="user" placeholder=""></td><td><div style="height:5px"></div><font color="white" size="3" style="	text-shadow: 2px 2px #000000;">@'
