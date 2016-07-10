@@ -170,7 +170,7 @@ done
 fin=$(tail -1 /tmp/resmp)
 
 #add verification on setup.sh
-pidof setup.sh >/dev/null
+ps -ae | grep setup.sh >/dev/null
 
 if [ "$?" -ne "0" ]; then
   if [ "$fin" != "finend" ]; then 
@@ -178,12 +178,12 @@ if [ "$?" -ne "0" ]; then
     sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh $user@$domain $pass1 \"$fn\"" > /tmp/resmp 2>&1 &
     history -c
   fi
+fi
 
-  while [ "$fin" != "finend" ]; do
+while [ "$fin" != "finend" ]; do
   fin=$(tail -1 /tmp/resmp)
   sleep 1;
-  done
-fi
+done
 
 ###########################################################################
 #		Get a certificate from Let's encrypt.
