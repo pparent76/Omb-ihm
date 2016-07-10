@@ -136,7 +136,7 @@ unset HISTFILE
 ps -ae | grep gpg >/dev/null
 gpgstate=$?;
 key=$(sudo /bin/su mailpile -c "/home/mailpile/Mailpile/getKeyFootprint.sh")
-if [ "$gpgstate" -eq "0" ] && [ ${#key} -lt 5 ]; then
+if [ "$gpgstate" -ne "0" ] && [ ${#key} -lt 5 ]; then
     sudo /bin/su mailpile -c "./setupGnupg.sh $user@$domain $pass1 \"$fn\" &" 
 fi
 
