@@ -153,7 +153,7 @@ fi
 sleep 1;
 sudo /bin/su root -c "newaliases"
 sleep 1;
-sudo /usr/sbin/service postfix restart
+sudo /usr/sbin/service postfix restart >/dev/null 2>&1
 printf "Subject:Welcome\nWelcome to your Own-Mailbox, $fn!" | /usr/sbin/sendmail $user@$domain
 
 while [ ! -s /var/mail/mailpile ]; do

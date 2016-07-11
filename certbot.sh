@@ -26,7 +26,7 @@ if [ -e /etc/letsencrypt/live/$2/fullchain.pem ] && [ -e /etc/letsencrypt/live/$
   rm /etc/ssl/server.key
   ln -s /etc/letsencrypt/live/$2/fullchain.pem /etc/ssl/server.crt
   ln -s /etc/letsencrypt/live/$2/privkey.pem /etc/ssl/server.key
-  service apache2 reload;
+  service apache2 reload >/dev/null 2>&1;
   (crontab -l 2>/dev/null; echo "12 00 15 * * torsocks certbot renew --quiet && service apache2 reload") | crontab -
 fi
 
