@@ -2,7 +2,7 @@
 
 touch /var/log/certbot-log 
 
-for i in {0..15..1}
+for i in {0..5..1}
 do
   torsocks certbot certonly -n --agree-tos --email $1@$2 --webroot  -w /var/www/ -d $2 >> /var/log/certbot-log 2>&1
   cat /var/log/certbot-log | grep Congratulations! >/dev/null
@@ -11,7 +11,7 @@ do
     break 
   fi
   
-  cat /var/log/certbot-log | grep "Too many certificates already issued" >/dev/null
+  cat /var/log/certbot-log | grep "Too many" >/dev/null
   if [ "$?" -eq "0" ]; then
    exit 55;
   fi
