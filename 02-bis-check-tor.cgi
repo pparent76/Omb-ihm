@@ -31,7 +31,7 @@ else
   local_ok=$(cat /tmp/wget-ok)
     
   #Si toutes les phase de connection se sont bien passées.
-  if [ "$res_wget" -eq "0" ] && [ "$res_cat" -eq "0" ] && [ "$hostname" != "" ] && [ "$local_ok" = "OK" ] then
+  if [ "$res_wget" -eq "0" ] && [ "$res_cat" -eq "0" ] && [ "$hostname" != "" ] && [ "$local_ok" = "OK" ]; then
     printf '<meta http-equiv="refresh" content="0; URL=../first/03-Identification-cookie.html">'
   else
     printf '<meta http-equiv="refresh" content="'
