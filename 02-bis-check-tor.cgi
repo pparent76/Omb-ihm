@@ -16,14 +16,22 @@ if [ "$attempt" = "" ]; then
    printf '<meta http-equiv="refresh" content="0">'  
 else
   attempt=$((attempt+1))
+  echo "$attempt"> /tmp/attempt_www
+  
+  #check that we can reach the proxy server
   torsocks wget --timeout $((attempt)) http://proxy.omb.one/OK -O /tmp/ok_www > /dev/null 2>&1
   res_wget=$?;
+  
+  #Get hostname
   hostname=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname);
   res_cat=$?;
-
-  echo "$attempt"> /tmp/attempt_www
-
-  if [ "$res_wget" -eq "0" ] && [ "$res_cat" -eq "0" ] && [ "$hostname" != "" ]; then
+  
+  #Trying to reach ourselves just to make sure that our tor hidden service is accessible.
+  torsocks wget  --tries=10  --timeout=45 http://$hostname/OK -O /tmp/wget-ok >/tmp/wget-tor-survey-res 2>&1
+  local_ok=$(cat /tmp/wget-ok)
+    
+  #Si toutes les phase de connection se sont bien passées.
+  if [ "$res_wget" -eq "0" ] && [ "$res_cat" -eq "0" ] && [ "$hostname" != "" ] && [ "$local_ok" = "OK" ] then
     printf '<meta http-equiv="refresh" content="0; URL=../first/03-Identification-cookie.html">'
   else
     printf '<meta http-equiv="refresh" content="'
