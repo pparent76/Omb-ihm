@@ -175,7 +175,7 @@ ps -ae | grep setup.sh >/dev/null
 if [ "$?" -ne "0" ]; then
   if [ "$fin" != "finend" ]; then 
     rm /tmp/resmp
-    sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh $user@$domain $pass1 \"$fn\"" > /tmp/resmp 2>&1 &
+    sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh '$user@$domain' '$pass1' \"$fn\"" > /tmp/resmp 2>&1 &
     history -c
   fi
 fi
