@@ -2,7 +2,7 @@
 
 echo -e "Content-type: text/html\n\n"
 cat <<EOF
-<html>
+<html lang="en">
 <head>
 EOF
 
@@ -103,7 +103,7 @@ cgi_getvars BOTH ALL
 #si Mail est déja configuré on va direct au résumé
 if [ -e "/etc/omb/Mailpile-configured" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=10-final.cgi">
+<meta http-equiv="refresh" content="0; url=10-final.cgi">
 </head><body></body>
 </html>
 EOF
@@ -114,7 +114,7 @@ fi
 #Password did not match
 if [ "$pass1" != "$pass2" ] || [ "$user" = "" ] || [ "$fn" = "" ] || [ "$pass1" = "" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=08b-setup-email-acount-nomatch.cgi">
+<meta http-equiv="refresh" content="0; url=08b-setup-email-acount-no-match.cgi">
 </head><body></body>
 </html>
 EOF
@@ -203,13 +203,13 @@ sudo /usr/bin/touch /etc/omb/Mailpile-configured
 #If we have an error because too many certificates were issued.
 if [ "$rescertbot" -eq "55" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/10-certificate-error.html">
+<meta http-equiv="refresh" content="0; url=../first/10-certificate-error.html">
 </head><body></body>
 </html>
 EOF
 else
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=10-final.cgi">
+<meta http-equiv="refresh" content="0; url=10-final.cgi">
 </head><body></body>
 </html>
 EOF

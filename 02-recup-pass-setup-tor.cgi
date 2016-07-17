@@ -2,7 +2,7 @@
 
 echo -e "Content-type: text/html\n\n"
 cat <<EOF
-<html>
+<html lang="en">
 <head>
 EOF
 
@@ -104,7 +104,7 @@ cgi_getvars BOTH ALL
 #TODO check for pass integrity
 if [ -e "/etc/omb/admin-pass-configured" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/01c-password-allreadyset.html">
+<meta http-equiv="refresh" content="0; url=../first/01c-password-already-set.html">
 </head><body></body>
 </html>
 EOF
@@ -114,7 +114,7 @@ fi
 #Password did not match
 if [ "$pass1" != "$pass2" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/01b-password-nomatch.html">
+<meta http-equiv="refresh" content="0; url=../first/01b-password-no-match.html">
 </head><body></body>
 </html>
 EOF
@@ -134,7 +134,7 @@ sudo /usr/sbin/a2ensite https.conf  >&- 2>&-
 sudo /usr/sbin/service apache2 reload >&- 2>&-
 
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=02-bis-check-tor.cgi">
+<meta http-equiv="refresh" content="0; url=02-bis-check-tor.cgi">
 </head><body></body>
 </html>
 EOF

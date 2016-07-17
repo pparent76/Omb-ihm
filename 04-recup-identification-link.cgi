@@ -2,7 +2,7 @@
 
 echo -e "Content-type: text/html\n\n"
 cat <<EOF
-<html>
+<html lang="en">
 <head>
 EOF
 
@@ -95,10 +95,29 @@ function cgi_getvars()
     return
 }
 
-#si le domaine est déja configuré on va direct au résumé
-if [ -e "/etc/omb/Domain-configured" ]; then
+
+
+# register all GET and POST variables
+cgi_getvars BOTH ALL
+
+if [ -e "/etc/omb/Identification-configured" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
+<meta http-equiv="refresh" content="0; url=../first/03c-identification-cookie-already-set.html">
+</head><body></body>
+</html>
+EOF
+exit 0;
+fi
+
+#todo check link is a link 
+
+echo $link>/tmp/link
+#we download the target anonymously
+torsocks wget $link -O /home/www-data/cookie >/tmp/download 2>&1
+
+if [ "$?" -ne "0" ]; then
+cat <<EOF
+<meta http-equiv="refresh" content="0; url=../first/03b-identification-cookie-wrong.html">
 </head><body></body>
 </html>
 EOF
@@ -106,57 +125,26 @@ exit 0;
 fi
 
 
-#Get our tor hidden service hostname
-tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
-if [ -z "$tor_hiddendomain" ]; then
-  echo "The tor hidden service is not correctly setup">/tmp/res
-  cat <<EOF
-<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
-</head><body></body>
-</html>
-EOF
-exit 
-fi
+sudo /usr/bin/touch /etc/omb/Identification-configured
 
-#If the tor hidden service was not yet communicated to the proxy server
-#then we inform the proxy server about it.
-if [ ! -e "/etc/omb/Tor-hidden-informed-configured" ]; then
-  omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1 2>&1
-  head -n 1 /tmp/res1 > /tmp/res
-  res=$(cat /tmp/res);
-  if [ "$res" != "OK" ]; then 
-    cat <<EOF
-<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
-</head><body></body>
-</html>
-EOF
-  exit  
-  fi
-fi
-sudo /usr/bin/touch /etc/omb/Tor-hidden-informed-configured
+######################################################
+#	Configure Identification for email relay
+######################################################
+ID=$(cat /home/www-data/cookie| awk '{print $1;}' | sed  's/ID=//g'  | sed  's/;//g');
+passphrase=$(cat /home/www-data/cookie| awk '{print $2;}' | sed  's/passphrase=//g'  | sed  's/;//g');
+RELAY=$(cat /etc/postfix/relay_hostname)
 
-
-cgi_getvars BOTH ALL
-omb-client -c /home/www-data/cookie -d $domain > /tmp/res1 2>&1
-head -n 1 /tmp/res1 > /tmp/res
-res=$(cat /tmp/res);
-if [ "$res" != "OK" ]; then 
-cat <<EOF
-<meta http-equiv="refresh" content="0; URL=05b-choose-domain-error.cgi">
-</head><body></body>
-</html>
-EOF
-exit
-fi
-echo "$domain.omb.one" > /home/www-data/domain
-sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one >/dev/null 2>&1
-sudo /usr/bin/touch /etc/omb/Domain-configured
-
-
+echo "$RELAY user-$ID@proxy.omb.one:$passphrase" | sudo /usr/bin/tee /etc/postfix/relay_password >/dev/null;
+sudo /usr/sbin/postmap /etc/postfix/relay_password >/dev/null 2>&1
+sudo /usr/sbin/service postfix restart >/dev/null 2>&1
 
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=07-sumup.cgi">
+<meta http-equiv="refresh" content="0; url=../first/05-choose-domain.html">
 </head><body></body>
 </html>
 EOF
+
+
+
+
 exit 0;
