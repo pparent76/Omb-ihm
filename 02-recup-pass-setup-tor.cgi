@@ -125,7 +125,7 @@ fi
 
 echo "root:$pass1" | sudo /usr/sbin/chpasswd
 
-(sudo /usr/lib/cgi-bin/setupTor.sh)& >&- 2>&-
+(sudo /usr/lib/cgi-bin/setup-tor.sh)& >&- 2>&-
 ###############################################
 #  Generate ssl key and add https to apache
 ###############################################
