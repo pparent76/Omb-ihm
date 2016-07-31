@@ -74,7 +74,7 @@ printf '
         <p>Your encryption key still is still being generated.</p>
         <p>You can start using your webmail before your encryption key is available.</p>
         <p class="buttons">
-            <a href="../Mailpile/auth/login/?_path=%2F" class="button mainaction">Access your webmail</a>
+            <a href="../Mailpile/auth/login/?_path=%%2F" class="button mainaction">Access your webmail</a>
         </p>
         <br>
         <p class="small">or wait here for your encryption key to be ready (up to 15 minutes).</p>

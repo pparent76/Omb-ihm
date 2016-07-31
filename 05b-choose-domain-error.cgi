@@ -23,7 +23,7 @@ printf '
 cat /tmp/res;
 printf '
             </p>
-            <p><label>Try a new domain:<br><input type="text" style="width: 70%;" name="domain">.omb.one</label></p>
+            <p><label>Try a new domain:<br><input type="text" style="width: 70%%;" name="domain">.omb.one</label></p>
             <p class="buttons">
                 <input type="submit" class="button mainaction" value="Submit">
             </p>

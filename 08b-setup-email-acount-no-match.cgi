@@ -60,7 +60,7 @@ printf '
                 <p class="error">Passwords did not match, please try again.</p>
                 <table>
                     <tr>
-                        <td style="width: 25%;">Email:</td>
+                        <td style="width: 25%%;">Email:</td>
                         <td><input type="text" name="user"></td>
                         <td>@'
 cat /home/www-data/domain;

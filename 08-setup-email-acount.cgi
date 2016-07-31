@@ -59,7 +59,7 @@ printf '
             <form action="../cgi-bin/09-setup-mailpile.cgi" method="post">
                 <table>
                     <tr>
-                        <td style="width: 25%;">Email:</td>
+                        <td style="width: 25%%;">Email:</td>
                         <td><input type="text" name="user"></td>
                         <td>@'
 cat /home/www-data/domain;
