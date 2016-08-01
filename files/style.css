@@ -152,6 +152,7 @@ input.button[disabled]:hover {
     left: 0;
     right: 0;
     margin: 20px;
+    min-height: 50%;
 }
 
 label input,
