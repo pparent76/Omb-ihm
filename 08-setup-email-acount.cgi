@@ -15,6 +15,16 @@ printf '
             document.getElementById("waiting").style.display = "block";
         }
     </script>
+    <script>
+    function validateForm() {
+      var x = document.forms["myForm"]["pass1"].value;
+      if (x.indexOf("$") != -1 || x.indexOf("'") != -1 || x.indexOf("\"") != -1 ) {
+	  alert(\"The following characters are forbidden in passwords: \' \\\" $ \");
+	  return false;
+      }
+      return true;
+    }
+</script>    
 </head>
 <body>
 <img src="../first/files/images/logo.png" alt="Own-Mailbox Logo">
@@ -56,7 +66,7 @@ printf '
             Create email account
         </p>
         <div class="content">
-            <form action="../cgi-bin/09-setup-mailpile.cgi" method="post">
+            <form   onsubmit="return validateForm()" action="../cgi-bin/09-setup-mailpile.cgi" method="post">
                 <table>
                     <tr>
                         <td style="width: 25%%;">Email:</td>
