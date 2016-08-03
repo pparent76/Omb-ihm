@@ -18,7 +18,7 @@ printf '
     <script>
     function validateForm() {
       var x = document.forms["myForm"]["pass1"].value;
-      if (x.indexOf("$") != -1 || x.indexOf("'") != -1 || x.indexOf("\"") != -1 ) {
+      if (x.indexOf("$") != -1 || x.indexOf("\'") != -1 || x.indexOf("\"") != -1 ) {
 	  alert(\"The following characters are forbidden in passwords: \' \\\" $ \");
 	  return false;
       }
