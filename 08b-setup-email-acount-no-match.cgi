@@ -71,7 +71,7 @@ printf '
             Create email account
         </p>
         <div class="content">
-            <form   onsubmit="return validateForm()" action="../cgi-bin/09-setup-mailpile.cgi" method="post">
+            <form  name="myForm" onsubmit="return validateForm()" action="../cgi-bin/09-setup-mailpile.cgi" method="post">
                 <p class="error">Passwords did not match, please try again.</p>
                 <table>
                     <tr>
