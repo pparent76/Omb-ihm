@@ -15,7 +15,6 @@ printf '
             document.getElementById("waiting").style.display = "block";
         }
     </script>
-    </script>
     <script>
     function validateForm() {
       var x = document.forms["myForm"]["pass1"].value;
@@ -27,9 +26,13 @@ printf '
 	  printf '\\\" $ \");
 	  return false;
       }
+      else
+      {
+      switch_screen();
+      }
       return true;
     }
-</script>         
+</script>        
 </head>
 <body>
 <img src="../first/files/images/logo.png" alt="Own-Mailbox Logo">
@@ -97,7 +100,7 @@ printf '
                 </table>
 
                 <p class="buttons">
-                    <input onclick="switch_screen();" type="submit" class="button mainaction" value="Submit">
+                    <input type="submit" class="button mainaction" value="Submit">
                 </p>
             </form>
         </div>

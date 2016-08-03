@@ -26,6 +26,10 @@ printf '
 	  printf '\\\" $ \");
 	  return false;
       }
+      else
+      {
+      switch_screen();
+      }
       return true;
     }
 </script>    
@@ -95,7 +99,7 @@ printf '
                 </table>
 
                 <p class="buttons">
-                    <input onclick="switch_screen();" type="submit" class="button mainaction" value="Submit">
+                    <input type="submit" class="button mainaction" value="Submit">
                 </p>
             </form>
         </div>
