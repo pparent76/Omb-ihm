@@ -137,7 +137,7 @@ ps -ae | grep gpg >/dev/null
 gpgstate=$?;
 key=$(sudo /bin/su mailpile -c "/home/mailpile/Mailpile/getKeyFootprint.sh")
 if [ "$gpgstate" -ne "0" ] && [ ${#key} -lt 5 ]; then
-    sudo /bin/su mailpile -c "./setup-gnupg.sh $user@$domain $pass1 \"$fn\" &"
+    sudo /bin/su mailpile -c "./setup-gnupg.sh '$user@$domain' '$pass1' \"$fn\" &"
 fi
 
 ###########################################################################
