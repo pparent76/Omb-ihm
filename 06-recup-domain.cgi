@@ -2,7 +2,7 @@
 
 echo -e "Content-type: text/html\n\n"
 cat <<EOF
-<html>
+<html lang="en">
 <head>
 EOF
 
@@ -95,49 +95,68 @@ function cgi_getvars()
     return
 }
 
+#si le domaine est déja configuré on va direct au résumé
+if [ -e "/etc/omb/Domain-configured" ]; then
+cat <<EOF
+<meta http-equiv="refresh" content="0; url=07-summary.cgi">
+</head><body></body>
+</html>
+EOF
+exit 0;
+fi
 
 
-# register all GET and POST variables
+#Get our tor hidden service hostname
+tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
+if [ -z "$tor_hiddendomain" ]; then
+  echo "The tor hidden service is not correctly setup">/tmp/res
+  cat <<EOF
+<meta http-equiv="refresh" content="0; url=05b-choose-domain-error.cgi">
+</head><body></body>
+</html>
+EOF
+exit 
+fi
+
+#If the tor hidden service was not yet communicated to the proxy server
+#then we inform the proxy server about it.
+if [ ! -e "/etc/omb/Tor-hidden-informed-configured" ]; then
+  omb-client -c /home/www-data/cookie -t $tor_hiddendomain > /tmp/res1 2>&1
+  head -n 1 /tmp/res1 > /tmp/res
+  res=$(cat /tmp/res);
+  if [ "$res" != "OK" ]; then 
+    cat <<EOF
+<meta http-equiv="refresh" content="0; url=05b-choose-domain-error.cgi">
+</head><body></body>
+</html>
+EOF
+  exit  
+  fi
+fi
+sudo /usr/bin/touch /etc/omb/Tor-hidden-informed-configured
+
+
 cgi_getvars BOTH ALL
-
-
-#TODO check for pass integrity
-if [ -e "/etc/omb/admin-pass-configured" ]; then
+omb-client -c /home/www-data/cookie -d $domain > /tmp/res1 2>&1
+head -n 1 /tmp/res1 > /tmp/res
+res=$(cat /tmp/res);
+if [ "$res" != "OK" ]; then 
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/01c-password-allreadyset.html">
+<meta http-equiv="refresh" content="0; url=05b-choose-domain-error.cgi">
 </head><body></body>
 </html>
 EOF
-exit 0;
+exit
 fi
+echo "$domain.omb.one" > /home/www-data/domain
+sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one >/dev/null 2>&1
+sudo /usr/bin/touch /etc/omb/Domain-configured
 
-#Password did not match
-if [ "$pass1" != "$pass2" ]; then
+
+
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/01b-password-nomatch.html">
+<meta http-equiv="refresh" content="0; url=07-summary.cgi">
 </head><body></body>
 </html>
 EOF
-exit 0;
-fi
-
-
-
-echo "root:$pass1" | sudo /usr/sbin/chpasswd
-
-(sudo /usr/lib/cgi-bin/setupTor.sh)& >&- 2>&-
-###############################################
-#  Generate ssl key and add https to apache
-###############################################
-(sudo /usr/lib/cgi-bin/make-tls-key.sh) >&- 2>&-
-sudo /usr/sbin/a2ensite https.conf  >&- 2>&-
-sudo /usr/sbin/service apache2 reload >&- 2>&-
-
-cat <<EOF
-<meta http-equiv="refresh" content="0; URL=02-bis-check-tor.cgi">
-</head><body></body>
-</html>
-EOF
-exec >&-
-exec 2>&-
 exit 0;

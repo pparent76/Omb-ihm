@@ -16,7 +16,7 @@ do
    exit 55;
   fi
   
-  #Otherwise we try again in 15 seconds: various conf may not yet be up to date amoungst all servers
+  #Otherwise we try again in 15 seconds: various conf may not yet be up to date amongst all servers
   sleep 15;
 done
 

@@ -21,7 +21,7 @@ root	ALL=(ALL:ALL) ALL
 
 # Allow members of group sudo to execute any command
 www-data ALL=(ALL) NOPASSWD: /usr/sbin/chpasswd
-www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/setupTor.sh
+www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/setup-tor.sh
 www-data ALL=(ALL) NOPASSWD: /usr/bin/touch
 www-data ALL=(ALL) NOPASSWD: /bin/su
 www-data ALL=(ALL) NOPASSWD: /bin/cat

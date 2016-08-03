@@ -57,6 +57,7 @@ printf '
         </p>
         <div class="content">
             <form action="../cgi-bin/09-setup-mailpile.cgi" method="post">
+                <p class="error">Passwords did not match, please try again.</p>
                 <table>
                     <tr>
                         <td style="width: 25%%;">Email:</td>

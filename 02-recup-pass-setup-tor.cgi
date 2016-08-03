@@ -2,7 +2,7 @@
 
 echo -e "Content-type: text/html\n\n"
 cat <<EOF
-<html>
+<html lang="en">
 <head>
 EOF
 
@@ -100,122 +100,44 @@ function cgi_getvars()
 # register all GET and POST variables
 cgi_getvars BOTH ALL
 
-#si Mail est déja configuré on va direct au résumé
-if [ -e "/etc/omb/Mailpile-configured" ]; then
+
+#TODO check for pass integrity
+if [ -e "/etc/omb/admin-pass-configured" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=10-final.cgi">
+<meta http-equiv="refresh" content="0; url=../first/01c-password-already-set.html">
 </head><body></body>
 </html>
 EOF
 exit 0;
 fi
-
 
 #Password did not match
-if [ "$pass1" != "$pass2" ] || [ "$user" = "" ] || [ "$fn" = "" ] || [ "$pass1" = "" ]; then
+if [ "$pass1" != "$pass2" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=08b-setup-email-acount-nomatch.cgi">
+<meta http-equiv="refresh" content="0; url=../first/01b-password-no-match.html">
 </head><body></body>
 </html>
 EOF
 exit 0;
 fi
 
-domain=$(cat /home/www-data/domain)
-echo "$user@$domain">/home/www-data/mail
-echo "$fn">/home/www-data/fn
-unset HISTFILE
 
 
+echo "root:$pass1" | sudo /usr/sbin/chpasswd
 
-###########################################################################
-#		Start creating a gpg key
-###########################################################################
+(sudo /usr/lib/cgi-bin/setup-tor.sh)& >&- 2>&-
+###############################################
+#  Generate ssl key and add https to apache
+###############################################
+(sudo /usr/lib/cgi-bin/make-tls-key.sh) >&- 2>&-
+sudo /usr/sbin/a2ensite https.conf  >&- 2>&-
+sudo /usr/sbin/service apache2 reload >&- 2>&-
 
-#Check that the key is not allready generated, or gpg is allready working.
-ps -ae | grep gpg >/dev/null
-gpgstate=$?;
-key=$(sudo /bin/su mailpile -c "/home/mailpile/Mailpile/getKeyFootprint.sh")
-if [ "$gpgstate" -ne "0" ] && [ ${#key} -lt 5 ]; then
-    sudo /bin/su mailpile -c "./setupGnupg.sh $user@$domain $pass1 \"$fn\" &" 
-fi
-
-###########################################################################
-#		Configure username in postfix, send him a welcome email
-#			And make sur he gets it.
-###########################################################################
-
-cat /etc/aliases | grep "$user" >/dev/null
-if [ $? -ne 0 ]; then
-  echo "$user:    mailpile" | sudo /usr/bin/tee -a /etc/aliases >/dev/null
-fi
-
-sleep 1;
-sudo /bin/su root -c "newaliases"
-sleep 1;
-sudo /usr/sbin/service postfix restart >/dev/null 2>&1
-printf "Subject:Welcome\nWelcome to your Own-Mailbox, $fn!" | /usr/sbin/sendmail $user@$domain
-
-while [ ! -s /var/mail/mailpile ]; do
-sleep 1;
-sudo /bin/su root -c "newaliases"
-sudo /bin/su root -c "postqueue -f"
-sleep 1;
-done
-
-###########################################################################
-#		Configure Mailpile in backgroud, and wait for it
-#		      to be ok.
-###########################################################################
-fin=$(tail -1 /tmp/resmp)
-
-#add verification on setup.sh
-ps -ae | grep setup.sh >/dev/null
-
-if [ "$?" -ne "0" ]; then
-  if [ "$fin" != "finend" ]; then 
-    rm /tmp/resmp
-    sudo /bin/su mailpile -c "cd /home/mailpile/Mailpile/; ./setup.sh '$user@$domain' '$pass1' \"$fn\"" > /tmp/resmp 2>&1 &
-    history -c
-  fi
-fi
-
-while [ "$fin" != "finend" ]; do
-  fin=$(tail -1 /tmp/resmp)
-  sleep 1;
-done
-
-###########################################################################
-#		Get a certificate from Let's encrypt.
-###########################################################################
-if [ ! -e "/etc/omb/certificate-configured" ]; then
-  sudo /usr/lib/cgi-bin/certbot.sh $user $domain
-  rescertbot=$?;
-  sleep 1;
-  sudo /usr/bin/touch /etc/omb/certificate-configured
-fi
-
-
-#For security reasons
-sudo /bin/cp sudoers-final /etc/sudoers
-sudo /usr/bin/touch /etc/omb/Mailpile-configured
-
-#If we have an error because too many certificates were issued.
-if [ "$rescertbot" -eq "55" ]; then
 cat <<EOF
-<meta http-equiv="refresh" content="0; URL=../first/10-certificate-error.html">
+<meta http-equiv="refresh" content="0; url=02-bis-check-tor.cgi">
 </head><body></body>
 </html>
 EOF
-else
-cat <<EOF
-<meta http-equiv="refresh" content="0; URL=10-final.cgi">
-</head><body></body>
-</html>
-EOF
-fi;
-
-
 exec >&-
 exec 2>&-
 exit 0;

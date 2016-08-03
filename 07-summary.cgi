@@ -14,21 +14,27 @@ printf '
 <img src="../first/files/images/logo.png" alt="Own-Mailbox Logo">
 <div class="box">
     <p class="title">
-        Choose your domain
+        Summary
     </p>
     <div class="content">
-        <form action="../cgi-bin/06-recup-domain.cgi" method="post">
-            <p class="warn">Domain request failed for the following reason:</p>
-            <p class="error">'
-cat /tmp/res;
+        <p>
+            <span>Your domain:</span><br>
+            <span class="success">'
+cat /home/www-data/domain;
 printf '
-            </p>
-            <p><label>Try a new domain:<br><input type="text" style="width: 70%%;" name="domain">.omb.one</label></p>
-            <p class="buttons">
-                <input type="submit" class="button mainaction" value="Submit">
-            </p>
-        </form>
-        <div class="note bottom">Your email addresses will end with this domain.</div>
+            </span>
+        </p>
+        <p>
+            <span>Your tor hidden service address:</span><br>
+            <span class="success">'
+sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname;
+printf '
+            </span>
+        </p>
+        <p class="warn small">Please save this information carefully. It may be useful later.</p>
+        <p class="buttons">
+            <a href="08-setup-email-acount.cgi" class="button mainaction">Continue</a>
+        </p>
     </div>
 </div>
 </body>
