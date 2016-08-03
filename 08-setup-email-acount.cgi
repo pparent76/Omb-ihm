@@ -20,7 +20,7 @@ printf '
       var x = document.forms["myForm"]["pass1"].value;
       if (x.indexOf("$") != -1 || x.indexOf("'
       echo -n "'"
-      printf '") != -1 || x.indexOf("\"") != -1 ) {
+      printf '") != -1 || x.indexOf("\\\"") != -1 ) {
 	  alert(\"The following characters are forbidden in passwords: '
 	  echo -n "'"
 	  printf '\\\" $ \");
