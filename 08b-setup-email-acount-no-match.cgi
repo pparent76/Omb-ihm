@@ -15,16 +15,21 @@ printf '
             document.getElementById("waiting").style.display = "block";
         }
     </script>
+    </script>
     <script>
     function validateForm() {
       var x = document.forms["myForm"]["pass1"].value;
-      if (x.indexOf("$") != -1 || x.indexOf("\'") != -1 || x.indexOf("\"") != -1 ) {
-	  alert(\"The following characters are forbidden in passwords: \' \\\" $ \");
+      if (x.indexOf("$") != -1 || x.indexOf("'
+      echo -n "'"
+      printf '") != -1 || x.indexOf("\"") != -1 ) {
+	  alert(\"The following characters are forbidden in passwords: '
+	  echo -n "'"
+	  printf '\\\" $ \");
 	  return false;
       }
       return true;
     }
-</script>      
+</script>         
 </head>
 <body>
 <img src="../first/files/images/logo.png" alt="Own-Mailbox Logo">
