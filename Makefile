@@ -1,5 +1,5 @@
 all:
-	cp sudoers /etc/sudoers
+	cp sudoers-temporary /etc/sudoers
 	mkdir -p /var/www/first/
 	cp -r files /var/www/first/
 	cp *.html /var/www/first/
