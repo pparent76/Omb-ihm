@@ -122,7 +122,7 @@ exit 0;
 fi
 
 
-(sudo /usr/lib/cgi-bin/changeRootPasswordOnce.sh $pass1)& >&- 2>&-
+(sudo /usr/lib/cgi-bin/changeRootPasswordOnce.sh "$pass1")& >&- 2>&-
 if [ "$?" -eq 11 ]; then 
 cat <<EOF
 <meta http-equiv="refresh" content="0; url=../first/01c-password-already-set.html">
