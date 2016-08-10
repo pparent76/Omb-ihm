@@ -122,16 +122,22 @@ exit 0;
 fi
 
 
-
-echo "root:$pass1" | sudo /usr/sbin/chpasswd
+(sudo /usr/lib/cgi-bin/changeRootPasswordOnce.sh $pass1)& >&- 2>&-
+if [ "$?" -eq 11 ]; then 
+cat <<EOF
+<meta http-equiv="refresh" content="0; url=../first/01c-password-already-set.html">
+</head><body></body>
+</html>
+EOF
+fi
 
 (sudo /usr/lib/cgi-bin/setup-tor.sh)& >&- 2>&-
-###############################################
-#  Generate ssl key and add https to apache
-###############################################
+
+########################################################
+#  Generate self-signed1 ssl key and add https to apache
+########################################################
 (sudo /usr/lib/cgi-bin/make-tls-key.sh) >&- 2>&-
-sudo /usr/sbin/a2ensite https.conf  >&- 2>&-
-sudo /usr/sbin/service apache2 reload >&- 2>&-
+
 
 cat <<EOF
 <meta http-equiv="refresh" content="0; url=02-bis-check-tor.cgi">

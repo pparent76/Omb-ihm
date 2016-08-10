@@ -20,23 +20,15 @@ Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/b
 root	ALL=(ALL:ALL) ALL
 
 # Allow members of group sudo to execute any command
-www-data ALL=(ALL) NOPASSWD: /usr/sbin/chpasswd
+
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/setup-tor.sh
-www-data ALL=(ALL) NOPASSWD: /usr/bin/touch
-www-data ALL=(ALL) NOPASSWD: /bin/su
-www-data ALL=(ALL) NOPASSWD: /bin/cat
-www-data ALL=(ALL) NOPASSWD: /usr/sbin/useradd
-www-data ALL=(ALL) NOPASSWD: /usr/bin/tee
-www-data ALL=(ALL) NOPASSWD: /usr/bin/newaliases
-www-data ALL=(ALL) NOPASSWD: /bin/cp
 www-data ALL=(ALL) NOPASSWD: /usr/bin/postfix_config_hostname.sh
-www-data ALL=(ALL) NOPASSWD: /usr/sbin/service postfix
-www-data ALL=(ALL) NOPASSWD: /usr/sbin/service apache2
-www-data ALL=(ALL) NOPASSWD: /usr/sbin/service
-www-data ALL=(ALL) NOPASSWD: /usr/sbin/postmap
-www-data ALL=(ALL) NOPASSWD: /usr/sbin/a2ensite
+www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/configPostfixMailpileGPG.sh
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/make-tls-key.sh
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/certbot.sh
+www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/getTorHostname.sh
+www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/changeRootPasswordOnce.sh
+www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/configPostfixMailpileGPG.sh
 
 # See sudoers(5) for more information on "#include" directives:
 

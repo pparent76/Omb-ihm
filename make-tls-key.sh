@@ -12,3 +12,6 @@ rm server.pass.key
 openssl req -new -key server.key -out server.csr \
   -subj "/C=UK/ST=Warwickshire/L=Leamington/O=OrgName/OU=IT Department/CN=example.com"
 openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+/usr/sbin/a2ensite https.conf  >&- 2>&-
+/usr/sbin/service apache2 reload >&- 2>&-

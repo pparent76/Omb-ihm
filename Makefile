@@ -12,6 +12,10 @@ all:
 	cp setup-gnupg.sh /usr/lib/cgi-bin/
 	cp setup-tor.sh /usr/lib/cgi-bin/
 	cp make-tls-key.sh /usr/lib/cgi-bin/
+	cp changeRootPasswordOnce.sh /usr/lib/cgi-bin/
+	cp configPostfixMailpileGPG.sh /usr/lib/cgi-bin/	
+	cp getTorHostname.sh /usr/lib/cgi-bin/	
+	cp revokeSudoers.sh /usr/lib/cgi-bin/		
 	cp certbot.sh /usr/lib/cgi-bin/
-	chown www-data /usr/lib/cgi-bin/*
+	chown www-data /usr/lib/cgi-bin/*.cgi
 	chmod +x /usr/lib/cgi-bin/*

@@ -27,7 +27,7 @@ printf '
         <p>
             <span>Your tor hidden service address:</span><br>
             <span class="success">'
-sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname;
+sudo /usr/lib/cgi-bin/getTorHostname.sh;
 printf '
             </span>
         </p>

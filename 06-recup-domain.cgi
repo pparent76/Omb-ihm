@@ -107,7 +107,7 @@ fi
 
 
 #Get our tor hidden service hostname
-tor_hiddendomain=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname)
+tor_hiddendomain=$(sudo /usr/lib/cgi-bin/getTorHostname.sh)
 if [ -z "$tor_hiddendomain" ]; then
   echo "The tor hidden service is not correctly setup">/tmp/res
   cat <<EOF
@@ -133,7 +133,7 @@ EOF
   exit  
   fi
 fi
-sudo /usr/bin/touch /etc/omb/Tor-hidden-informed-configured
+/usr/bin/touch /etc/omb/Tor-hidden-informed-configured
 
 
 cgi_getvars BOTH ALL
@@ -150,7 +150,7 @@ exit
 fi
 echo "$domain.omb.one" > /home/www-data/domain
 sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one >/dev/null 2>&1
-sudo /usr/bin/touch /etc/omb/Domain-configured
+/usr/bin/touch /etc/omb/Domain-configured
 
 
 

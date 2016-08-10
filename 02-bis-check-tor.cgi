@@ -25,7 +25,7 @@ else
     res_wget=$?;
 
     #Get hostname
-    hostname=$(sudo /bin/cat /var/lib/tor/omb_hidden_service/hostname);
+    hostname=$(sudo /usr/lib/cgi-bin/getTorHostname.sh);
     res_cat=$?;
 
     #Trying to reach ourselves just to make sure that our tor hidden service is accessible.
