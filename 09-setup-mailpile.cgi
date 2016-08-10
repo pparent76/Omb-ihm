@@ -126,7 +126,7 @@ echo "$user@$domain">/home/www-data/mail
 echo "$fn">/home/www-data/fn
 unset HISTFILE
 
-sudo /usr/lib/cgi-bin/configPostfixMailpileGPG.sh "$user" "$domain" "$pass1"
+sudo /usr/lib/cgi-bin/configPostfixMailpileGPG.sh "$user" "$domain" "$pass1" "$fn"
 
 #For security reasons
 sudo /usr/lib/cgi-bin/revokeSudoers.sh
