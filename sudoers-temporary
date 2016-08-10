@@ -29,6 +29,7 @@ www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/certbot.sh
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/getTorHostname.sh
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/changeRootPasswordOnce.sh
 www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/configPostfixMailpileGPG.sh
+www-data ALL=(ALL) NOPASSWD: /usr/lib/cgi-bin/revokeSudoers.sh
 
 # See sudoers(5) for more information on "#include" directives:
 

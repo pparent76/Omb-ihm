@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo /bin/cp sudoers-final /etc/sudoers
+/bin/cp /usr/lib/cgi-bin/sudoers-final /etc/sudoers
