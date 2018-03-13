@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /usr/lib/cgi-bin/omb-config.sh
+
 user=$1
 domain=$2
 pass1=$3
@@ -24,7 +26,7 @@ ID=$(cat /home/www-data/cookie| awk '{print $1;}' | sed  's/ID=//g'  | sed  's/;
 passphrase=$(cat /home/www-data/cookie| awk '{print $2;}' | sed  's/passphrase=//g'  | sed  's/;//g');
 RELAY=$(cat /etc/postfix/relay_hostname)
 
-echo "$RELAY user-$ID@proxy.omb.one:$passphrase" |  /usr/bin/tee /etc/postfix/relay_password >/dev/null;
+echo "$RELAY user-$ID@$FQDN:$passphrase" |  /usr/bin/tee /etc/postfix/relay_password >/dev/null;
 /usr/sbin/postmap /etc/postfix/relay_password >/dev/null 2>&1
 /usr/sbin/service postfix restart >/dev/null 2>&1
 
