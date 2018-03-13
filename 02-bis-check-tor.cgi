@@ -1,4 +1,7 @@
 #!/bin/bash
+
+. /usr/lib/cgi-bin/omb-config.sh
+
 printf "Content-Type: text/html\n\n"
 printf '
 <!DOCTYPE html>
@@ -21,7 +24,7 @@ else
     echo "$attempt"> /tmp/attempt_www
 
     #check that we can reach the proxy server
-    torsocks wget --timeout $((attempt)) http://proxy.omb.one/OK -O /tmp/ok_www > /dev/null 2>&1
+    torsocks wget --timeout $((attempt)) http://$FQDN/OK -O /tmp/ok_www > /dev/null 2>&1
     res_wget=$?;
 
     #Get hostname

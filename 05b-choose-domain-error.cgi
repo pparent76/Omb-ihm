@@ -1,4 +1,7 @@
 #!/bin/bash
+
+. /usr/lib/cgi-bin/omb-config.sh
+
 printf '
 <!DOCTYPE html>
 <html lang="en">
@@ -21,9 +24,12 @@ printf '
             <p class="warn">Domain request failed for the following reason:</p>
             <p class="error">'
 cat /tmp/res;
+
 printf '
             </p>
-            <p><label>Try a new domain:<br><input type="text" style="width: 70%%;" name="domain">.omb.one</label></p>
+            <p><label>Try a new domain:<br><input type="text" style="width: 70%%;" name="domain">'
+printf ".$MASTER_DOMAIN"
+printf '</label></p>
             <p class="buttons">
                 <input type="submit" class="button mainaction" value="Submit">
             </p>
