@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /usr/lib/cgi-bin/omb-config.sh
+
 echo -e "Content-type: text/html\n\n"
 cat <<EOF
 <html lang="en">
@@ -148,8 +150,8 @@ cat <<EOF
 EOF
 exit
 fi
-echo "$domain.omb.one" > /home/www-data/domain
-sudo /usr/bin/postfix_config_hostname.sh $domain.omb.one >/dev/null 2>&1
+echo "$domain.$MASTER_DOMAIN" > /home/www-data/domain
+sudo /usr/bin/postfix_config_hostname.sh $domain.$MASTER_DOMAIN >/dev/null 2>&1
 /usr/bin/touch /etc/omb/Domain-configured
 
 
