@@ -1,4 +1,5 @@
 all:
+	update-domain
 	cp sudoers-temporary /etc/sudoers
 	mkdir -p /var/www/first/
 	cp -r files /var/www/first/
@@ -20,3 +21,8 @@ all:
 	cp omb-config.sh /usr/lib/cgi-bin/	
 	chown www-data /usr/lib/cgi-bin/*.cgi
 	chmod +x /usr/lib/cgi-bin/*
+
+update-domain:
+	$$(. ./omb-config.sh; sed -i "s/~tpl_FQDN/$$FQDN/g" 03-identification-cookie.html)
+	$$(. ./omb-config.sh; sed -i "s/~tpl_FQDN/$$FQDN/g" 03b-identification-cookie-wrong.html)
+	$$(. ./omb-config.sh; sed -i "s/~tpl_MASTER_DOMAIN/$$MASTER_DOMAIN/g" 05-choose-domain.html)
