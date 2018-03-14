@@ -1,5 +1,5 @@
 #!/bin/bash
-ps -ae | grep gpg
+ps -ae | grep gpg > /dev/null 2>&1
 gpgstate=$?;
 printf '
 <!DOCTYPE html>
