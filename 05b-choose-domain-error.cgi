@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo -e "Content-type: text/html\n\n"
+
 . /usr/lib/cgi-bin/omb-config.sh
 
 printf '

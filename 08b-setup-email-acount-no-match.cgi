@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo -e "Content-type: text/html\n\n"
+
 printf '
 <!DOCTYPE html>
 <html lang="en">
