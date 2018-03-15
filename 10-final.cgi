@@ -1,6 +1,7 @@
 #!/bin/bash
-ps -ae | grep gpg > /dev/null 2>&1
-gpgstate=$?;
+
+echo -e "Content-type: text/html\n\n"
+
 printf '
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +12,10 @@ printf '
     <meta name="viewport" content="" id="viewport">
     <link rel="stylesheet" type="text/css" href="../first/files/style.css">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">'
+
+ps -ae | grep gpg > /dev/null 2>&1
+gpgstate=$?;
+
 if [ "$gpgstate" -eq "0" ]; then
  printf '<meta http-equiv="refresh" content="20; url=10-final.cgi">'
 else
