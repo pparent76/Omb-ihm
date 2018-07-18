@@ -1,0 +1,53 @@
+    <script>
+        function toggle_logs() {
+            var div = document.getElementById("toggle-logs");
+            if (div.style.display !== "none") {
+                div.style.display = "none";
+            } else {
+                div.style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body>
+<img src="../first/files/images/logo.png" alt="Own-Mailbox Logo">
+<div class="box">
+    <p class="title">
+        Connecting to<br>the tor network
+    </p>
+    <div class="content">
+        <span>Please wait...</span>
+        <ul class="loader">
+            <li>
+                <div class="circle"></div>
+                <div class="ball"></div>
+            </li>
+            <li>
+                <div class="circle"></div>
+                <div class="ball"></div>
+            </li>
+            <li>
+                <div class="circle"></div>
+                <div class="ball"></div>
+            </li>
+            <li>
+                <div class="circle"></div>
+                <div class="ball"></div>
+            </li>
+            <li>
+                <div class="circle"></div>
+                <div class="ball"></div>
+            </li>
+        </ul>
+        <div>
+            <label class="note bottom link" for="toggle-logs" onclick="toggle_logs();">
+                &#10140; Connection logs.
+            </label>
+            <textarea class="logs" id="toggle-logs" style="display: none;">'
+	      ~tpl_torlog
+            </textarea>
+        </div>
+    </div>
+</div>
+</body>
+</html> 
