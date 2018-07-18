@@ -23,6 +23,6 @@ all:
 	chmod +x /usr/lib/cgi-bin/*
 
 update-domain:
-	$$(. ./omb-config.sh; sed -i "s/~tpl_FQDN/$$FQDN/g" html/03-identification-cookie.html)
-	$$(. ./omb-config.sh; sed -i "s/~tpl_FQDN/$$FQDN/g" html/03b-identification-cookie-wrong.html)
-	$$(. ./omb-config.sh; sed -i "s/~tpl_MASTER_DOMAIN/$$MASTER_DOMAIN/g" html/05-choose-domain.html)
+	$$(. ./omb-config.sh; sed -i "s/~tpl_FQDN/$$FQDN/g" 03-identification-cookie.html)
+	$$(. ./omb-config.sh; sed -i "s/~tpl_FQDN/$$FQDN/g" 03b-identification-cookie-wrong.html)
+	$$(. ./omb-config.sh; sed -i "s/~tpl_MASTER_DOMAIN/$$MASTER_DOMAIN/g" 05-choose-domain.html)

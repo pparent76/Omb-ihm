@@ -1,4 +1,4 @@
-# Own-Mailbox_setup_webinterface
+# Own-Mailbox_first-time-setup-ihm
 Web interface to easily setup an Own-mailbox.
 
 Dependencies
