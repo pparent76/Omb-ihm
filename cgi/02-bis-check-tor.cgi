@@ -1,18 +1,11 @@
 #!/bin/bash
 
+echo -e "Content-Type: text/html\n\n"
+echo -e ""
+
 . /usr/lib/cgi-bin/omb-config.sh
 
-printf "Content-Type: text/html\n\n"
-printf '
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Own-Mailbox setup.</title>
-<meta name="Robots" content="noindex,nofollow">
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE">
-<meta name="viewport" content="" id="viewport">
-<link rel="stylesheet" type="text/css" href="../first/files/style.css">
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">';
+
 
 attempt=$(cat /tmp/attempt_www)
 if [ "$attempt" = "" ]; then
@@ -45,58 +38,4 @@ else
     fi
 fi
 
-printf '
-    <script>
-        function toggle_logs() {
-            var div = document.getElementById("toggle-logs");
-            if (div.style.display !== "none") {
-                div.style.display = "none";
-            } else {
-                div.style.display = "block";
-            }
-        }
-    </script>
-</head>
-<body>
-<img src="../first/files/images/logo.png" alt="Own-Mailbox Logo">
-<div class="box">
-    <p class="title">
-        Connecting to<br>the tor network
-    </p>
-    <div class="content">
-        <span>Please wait...</span>
-        <ul class="loader">
-            <li>
-                <div class="circle"></div>
-                <div class="ball"></div>
-            </li>
-            <li>
-                <div class="circle"></div>
-                <div class="ball"></div>
-            </li>
-            <li>
-                <div class="circle"></div>
-                <div class="ball"></div>
-            </li>
-            <li>
-                <div class="circle"></div>
-                <div class="ball"></div>
-            </li>
-            <li>
-                <div class="circle"></div>
-                <div class="ball"></div>
-            </li>
-        </ul>
-        <div>
-            <label class="note bottom link" for="toggle-logs" onclick="toggle_logs();">
-                &#10140; Connection logs.
-            </label>
-            <textarea class="logs" id="toggle-logs" style="display: none;">'
-cat /var/log/tor.log;
-printf '
-            </textarea>
-        </div>
-    </div>
-</div>
-</body>
-</html>';
+
