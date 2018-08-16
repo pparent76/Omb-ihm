@@ -1,5 +1,5 @@
 all:
-	update-domain
+	make update-domain
 	cp sudoers-temporary /etc/sudoers
 	mkdir -p /var/www/first/
 	cp -r files /var/www/first/
